@@ -1,9 +1,9 @@
-INC_DIR = include
+INC_DIR =	include
 
-SRC_DIR = src
+SRC_DIR =	src
 
-SRC = 		$(SRC_DIR)/printer.c \
-	  		$(SRC_DIR)/count_word.c
+SRC =		$(SRC_DIR)/printer.c \
+			$(SRC_DIR)/count_word.c
 
 SRC_MAIN =	$(SRC_DIR)/main.c
 
@@ -27,7 +27,7 @@ BIN =		bin
 all:		$(OBJ) $(OBJ_MAIN)
 	$(CC) -o $(BIN) $(OBJ) $(OBJ_MAIN)
 
-tests_run:  $(OBJ) $(OBJ_TEST)
+tests_run:	$(OBJ) $(OBJ_TEST)
 	$(CC) -o $(TEST_BIN) $(OBJ) $(OBJ_TEST) --coverage -lcriterion
 	./$(TEST_BIN)
 
