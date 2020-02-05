@@ -18,15 +18,20 @@ OBJ_MAIN =	$(SRC_MAIN:.c=.o)
 
 CFLAGS +=	-I $(INC_DIR) -Wall -Wextra
 
+LDFLAGS +=
+
 TEST_BIN =	unit-tests
 
 BIN =		bin
 
 all:		$(OBJ) $(OBJ_MAIN)
-	$(CC) -o $(BIN) $(OBJ) $(OBJ_MAIN)
+	$(CC) -o $(BIN) $(OBJ) $(OBJ_MAIN) $(LDFLAGS)
+
+debug:
+	$(CC) -o $(BIN) $(SRC) $(SRC_MAIN) $(CFLAGS) $(LDFLAGS) -g
 
 tests_run:
-	$(CC) -o $(TEST_BIN) $(SRC) $(TEST) $(CFLAGS) --coverage -lcriterion
+	$(CC) -o $(TEST_BIN) $(SRC) $(TEST) $(CFLAGS) --coverage -lcriterion $(LDFLAGS)
 	./$(TEST_BIN)
 
 clean:
