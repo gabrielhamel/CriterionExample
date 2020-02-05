@@ -9,16 +9,14 @@ SRC_MAIN =	$(SRC_DIR)/main.c
 
 TEST_DIR =	tests
 
-TEST =		$(TEST_DIR)/count_word.c \
-			$(TEST_DIR)/printer.c
+TEST =		$(TEST_DIR)/tests_count_word.c \
+			$(TEST_DIR)/tests_printer.c
 
 OBJ =		$(SRC:.c=.o)
 
 OBJ_MAIN =	$(SRC_MAIN:.c=.o)
 
-OBJ_TEST =	$(TEST:.c=.o)
-
-CFLAGS +=	-I $(INC_DIR)
+CFLAGS +=	-I $(INC_DIR) -Wall -Wextra
 
 TEST_BIN =	unit-tests
 
@@ -27,16 +25,14 @@ BIN =		bin
 all:		$(OBJ) $(OBJ_MAIN)
 	$(CC) -o $(BIN) $(OBJ) $(OBJ_MAIN)
 
-tests_run:	$(OBJ) $(OBJ_TEST)
-	$(CC) -o $(TEST_BIN) $(OBJ) $(OBJ_TEST) --coverage -lcriterion
+tests_run:
+	$(CC) -o $(TEST_BIN) $(SRC) $(TEST) $(CFLAGS) --coverage -lcriterion
 	./$(TEST_BIN)
 
 clean:
-	$(RM) $(OBJ) $(OBJ_TEST) $(OBJ_MAIN)
-	$(RM) $(SRC:.c=.gcno)
-	$(RM) $(SRC:.c=.gcda)
-	$(RM) $(TEST:.c=.gcno)
-	$(RM) $(TEST:.c=.gcda)
+	$(RM) $(OBJ) $(OBJ_MAIN)
+	find . -name "*.gcda" -delete
+	find . -name "*.gcno" -delete
 
 fclean:		clean
 	$(RM) $(TEST_BIN)
