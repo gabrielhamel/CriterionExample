@@ -1,28 +1,45 @@
-SRC = printer.c \
-	  str_to_word_array.c
+INC_DIR = include
 
-TEST =	tests/tests_printer.c \
-		tests/tests.c
+SRC_DIR = src
 
-OBJ = $(SRC:.c=.o)
+SRC = 		$(SRC_DIR)/printer.c \
+	  		$(SRC_DIR)/count_word.c
 
-OBJ_TEST = $(TEST:.c=.o)
+SRC_MAIN =	$(SRC_DIR)/main.c
 
-CFLAGS += -I .
-LDLIBS += -lcriterion --coverage
+TEST_DIR =	tests
 
-TEST_BIN = unit-tests
+TEST =		$(TEST_DIR)/count_word.c \
+			$(TEST_DIR)/printer.c
 
-tests_run: $(OBJ) $(OBJ_TEST)
-	$(CC) -o $(TEST_BIN) $(OBJ) $(OBJ_TEST) $(LDLIBS)
+OBJ =		$(SRC:.c=.o)
+
+OBJ_MAIN =	$(SRC_MAIN:.c=.o)
+
+OBJ_TEST =	$(TEST:.c=.o)
+
+CFLAGS +=	-I $(INC_DIR)
+
+TEST_BIN =	unit-tests
+
+BIN =		bin
+
+all:		$(OBJ) $(OBJ_MAIN)
+	$(CC) -o $(BIN) $(OBJ) $(OBJ_MAIN)
+
+tests_run:  $(OBJ) $(OBJ_TEST)
+	$(CC) -o $(TEST_BIN) $(OBJ) $(OBJ_TEST) --coverage -lcriterion
 	./$(TEST_BIN)
 
 clean:
-	rm -f $(OBJ) $(OBJ_TEST)
-	rm -rf *.gc*
+	$(RM) $(OBJ) $(OBJ_TEST) $(OBJ_MAIN)
+	$(RM) $(SRC:.c=.gcno)
+	$(RM) $(SRC:.c=.gcda)
+	$(RM) $(TEST:.c=.gcno)
+	$(RM) $(TEST:.c=.gcda)
 
-fclean: clean
-	rm -f $(TEST_BIN)
+fclean:		clean
+	$(RM) $(TEST_BIN)
+	$(RM) $(BIN)
 
-%.o : %.c
-	$(CC) -c -o $@ $^ $(LDLIBS)
+re:			fclean all

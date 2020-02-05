@@ -1,0 +1,5 @@
+*.gcno
+*.gcda
+*.o
+unit-tests
+bin
