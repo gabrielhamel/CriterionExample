@@ -31,7 +31,7 @@ debug:
 	$(CC) -o $(BIN) $(SRC) $(SRC_MAIN) $(CFLAGS) $(LDFLAGS) -g
 
 tests_run:
-	$(CC) -o $(TEST_BIN) $(SRC) $(TEST) $(CFLAGS) --coverage -lcriterion $(LDFLAGS)
+	$(CC) -o $(TEST_BIN) $(SRC) $(TEST) $(CFLAGS) --coverage -lcriterion $(LDFLAGS) -g
 	./$(TEST_BIN)
 
 clean:
